@@ -707,7 +707,7 @@ static inline void lower_irql(KIRQL oldirql)
 static inline KIRQL current_irql(void)
 {
 	int count;
-	if (in_irq() || irqs_disabled())
+	if (irqs_disabled())
 		EXIT4(return DIRQL);
 	if (in_atomic() || in_interrupt())
 		EXIT4(return SOFT_IRQL);
