@@ -33,6 +33,11 @@
 #define from_timer timer_container_of
 #endif
 
+// https://lkml.iu.edu/hypermail/linux/kernel/2211.3/00704.html
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+#define del_timer_sync timer_delete_sync
+#endif
+
 /* Functions callable from the NDIS driver */
 wstdcall NTSTATUS NdisDispatchDeviceControl(struct device_object *fdo,
 					    struct irp *irp);

@@ -26,6 +26,11 @@
 #define from_timer timer_container_of
 #endif
 
+// https://lkml.iu.edu/hypermail/linux/kernel/2211.3/00704.html
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+#define del_timer_sync timer_delete_sync
+#endif
+
 /* MDLs describe a range of virtual address with an array of physical
  * pages right after the header. For different ranges of virtual
  * addresses, the number of entries of physical pages may be different
