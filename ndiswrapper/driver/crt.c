@@ -14,7 +14,7 @@
  */
 
 #include <linux/random.h>
-
+#include <linux/prandom.h>
 #include "ntoskernel.h"
 #include "crt_exports.h"
 
