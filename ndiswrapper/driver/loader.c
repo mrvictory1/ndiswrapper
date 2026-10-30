@@ -133,7 +133,7 @@ static int load_sys_files(struct wrap_driver *driver,
 
 	TRACE1("num_pe_images = %d", load_driver->num_sys_files);
 	TRACE1("loading driver: %s", load_driver->name);
-	strncpy(driver->name, load_driver->name, sizeof(driver->name));
+	strscpy(driver->name, load_driver->name, sizeof(driver->name));
 	driver->name[sizeof(driver->name)-1] = 0;
 	TRACE1("driver: %s", driver->name);
 	err = 0;
@@ -142,7 +142,7 @@ static int load_sys_files(struct wrap_driver *driver,
 		struct pe_image *pe_image;
 		pe_image = &driver->pe_images[driver->num_pe_images];
 
-		strncpy(pe_image->name, load_driver->sys_files[i].name,
+		strscpy(pe_image->name, load_driver->sys_files[i].name,
 			sizeof(pe_image->name));
 		pe_image->name[sizeof(pe_image->name)-1] = 0;
 		TRACE1("image size: %zu bytes", load_driver->sys_files[i].size);
@@ -294,7 +294,7 @@ static int add_bin_file(struct load_driver_file *driver_file)
 		return -EINVAL;
 	}
 	bin_file = &driver->bin_files[i];
-	strncpy(bin_file->name, driver_file->name, sizeof(bin_file->name));
+	strscpy(bin_file->name, driver_file->name, sizeof(bin_file->name));
 	bin_file->name[sizeof(bin_file->name)-1] = 0;
 	bin_file->data = vmalloc(driver_file->size);
 	if (!bin_file->data) {
@@ -340,7 +340,7 @@ static int load_bin_files_info(struct wrap_driver *driver,
 	}
 
 	for (i = 0; i < load_driver->num_bin_files; i++) {
-		strncpy(bin_files[i].name, load_driver->bin_files[i].name,
+		strscpy(bin_files[i].name, load_driver->bin_files[i].name,
 			sizeof(bin_files[i].name));
 		bin_files[i].name[sizeof(bin_files[i].name)-1] = 0;
 		TRACE2("loaded bin file %s", bin_files[i].name);
@@ -370,16 +370,16 @@ static int load_settings(struct wrap_driver *wrap_driver,
 			ERROR("couldn't allocate memory");
 			break;
 		}
-		strncpy(setting->name, load_setting->name,
+		strscpy(setting->name, load_setting->name,
 			sizeof(setting->name));
 		setting->name[sizeof(setting->name)-1] = 0;
-		strncpy(setting->value, load_setting->value,
+		strscpy(setting->value, load_setting->value,
 		       sizeof(setting->value));
 		setting->value[sizeof(setting->value)-1] = 0;
 		TRACE2("%p: %s=%s", setting, setting->name, setting->value);
 
 		if (strcmp(setting->name, "driver_version") == 0) {
-			strncpy(wrap_driver->version, setting->value,
+			strscpy(wrap_driver->version, setting->value,
 				sizeof(wrap_driver->version));
 			wrap_driver->version[sizeof(wrap_driver->version)-1] = 0;
 		} else if (strcmp(setting->name, "class_guid") == 0 &&
@@ -565,7 +565,7 @@ static int load_user_space_driver(struct load_driver *load_driver)
 		ObDereferenceObject(drv_obj);
 		EXIT1(return -EINVAL);
 	}
-	strncpy(wrap_driver->name, load_driver->name, sizeof(wrap_driver->name));
+	strscpy(wrap_driver->name, load_driver->name, sizeof(wrap_driver->name));
 	wrap_driver->name[sizeof(wrap_driver->name)-1] = 0;
 	if (load_sys_files(wrap_driver, load_driver) ||
 	    load_bin_files_info(wrap_driver, load_driver) ||
@@ -774,10 +774,10 @@ static long wrapper_ioctl(struct file *file, unsigned int cmd,
 			wd->device = load_device.device;
 			wd->subvendor = load_device.subvendor;
 			wd->subdevice = load_device.subdevice;
-			strncpy(wd->conf_file_name, load_device.conf_file_name,
+			strscpy(wd->conf_file_name, load_device.conf_file_name,
 				sizeof(wd->conf_file_name));
 			wd->conf_file_name[sizeof(wd->conf_file_name)-1] = 0;
-			strncpy(wd->driver_name, load_device.driver_name,
+			strscpy(wd->driver_name, load_device.driver_name,
 			       sizeof(wd->driver_name));
 			wd->driver_name[sizeof(wd->driver_name)-1] = 0;
 			InsertHeadList(&wrap_devices, &wd->list);

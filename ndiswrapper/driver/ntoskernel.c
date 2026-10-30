@@ -180,7 +180,7 @@ static int add_bus_driver(const char *name)
 		ERROR("couldn't allocate memory");
 		return -ENOMEM;
 	}
-	strncpy(bus_driver->name, name, sizeof(bus_driver->name));
+	strscpy(bus_driver->name, name, sizeof(bus_driver->name));
 	bus_driver->name[sizeof(bus_driver->name)-1] = 0;
 	spin_lock_bh(&ntoskernel_lock);
 	InsertTailList(&bus_driver_list, &bus_driver->list);
@@ -1584,7 +1584,7 @@ static int ntdriver_thread(void *data)
 #ifdef PF_NOFREEZE
 	current->flags |= PF_NOFREEZE;
 #endif
-	strncpy(current->comm, "ntdriver", sizeof(current->comm));
+	strscpy(current->comm, "ntdriver", sizeof(current->comm));
 	current->comm[sizeof(current->comm)-1] = 0;
 	LIN2WIN1(func, ctx);
 	ERROR("task: %p", current);
@@ -2095,7 +2095,7 @@ wstdcall NTSTATUS WIN_FUNC(ZwCreateFile,11)
 	} else if (access_mask & FILE_WRITE_DATA) {
 		bin_file = kzalloc(sizeof(*bin_file), GFP_KERNEL);
 		if (bin_file) {
-			strncpy(bin_file->name, file_basename,
+			strscpy(bin_file->name, file_basename,
 				sizeof(bin_file->name));
 			bin_file->name[sizeof(bin_file->name)-1] = 0;
 			bin_file->data = vmalloc(*size);

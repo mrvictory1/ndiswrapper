@@ -292,10 +292,11 @@ noregparm INT WIN_FUNC(_win__vsnwprintf,4)
 	return ret;
 }
 
-noregparm char *WIN_FUNC(_win_strncpy,3)
+noregparm char *WIN_FUNC(_win_strscpy,3)
 	(char *dst, char *src, SIZE_T n)
 {
-	return strncpy(dst, src, n);
+	strscpy(dst, src, n);
+	return dst;
 }
 
 noregparm SIZE_T WIN_FUNC(_win_strlen,1)

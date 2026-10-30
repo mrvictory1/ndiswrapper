@@ -1667,16 +1667,16 @@ static void ndis_get_drvinfo(struct net_device *dev,
 			     struct ethtool_drvinfo *info)
 {
 	struct ndis_device *wnd = netdev_priv(dev);
-	strncpy(info->driver, DRIVER_NAME, sizeof(info->driver) - 2);
+	strscpy(info->driver, DRIVER_NAME, sizeof(info->driver) - 2);
 	strcat(info->driver, "+");
 	strncat(info->driver, wnd->wd->driver->name,
 		sizeof(info->driver) - strlen(DRIVER_NAME) - 1);
-	strncpy(info->version, DRIVER_VERSION, sizeof(info->version) - 2);
+	strscpy(info->version, DRIVER_VERSION, sizeof(info->version) - 2);
 	strcat(info->version, "+");
 	strncat(info->version, wnd->wd->driver->version,
 		sizeof(info->version) - strlen(DRIVER_VERSION) - 1);
 	if (wrap_is_pci_bus(wnd->wd->dev_bus))
-		strncpy(info->bus_info, pci_name(wnd->wd->pci.pdev),
+		strscpy(info->bus_info, pci_name(wnd->wd->pci.pdev),
 			sizeof(info->bus_info) - 1);
 #ifdef ENABLE_USB
 	else
@@ -1891,7 +1891,7 @@ static NDIS_STATUS ndis_start_device(struct ndis_device *wnd)
 	TRACE1("mac:" MACSTRSEP, MAC2STR(mac));
 	memcpy((void*)net_dev->dev_addr, mac, ETH_ALEN);
 
-	strncpy(net_dev->name, if_name, IFNAMSIZ - 1);
+	strscpy(net_dev->name, if_name, IFNAMSIZ - 1);
 	net_dev->name[IFNAMSIZ - 1] = 0;
 
 	wnd->packet_filter = NDIS_PACKET_TYPE_DIRECTED |
