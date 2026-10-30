@@ -21,6 +21,11 @@
 #include "ntoskernel_exports.h"
 #include "nvmalloc.h"
 
+// https://github.com/asterisk/dahdi-linux/issues/95#issuecomment-3927642949
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 14, 0))
+#define from_timer timer_container_of
+#endif
+
 /* MDLs describe a range of virtual address with an array of physical
  * pages right after the header. For different ranges of virtual
  * addresses, the number of entries of physical pages may be different

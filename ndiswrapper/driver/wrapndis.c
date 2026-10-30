@@ -28,6 +28,11 @@
 	#define PCI_DMA_TODEVICE DMA_TO_DEVICE
 #endif
 
+// https://github.com/asterisk/dahdi-linux/issues/95#issuecomment-3927642949
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 14, 0))
+#define from_timer timer_container_of
+#endif
+
 /* Functions callable from the NDIS driver */
 wstdcall NTSTATUS NdisDispatchDeviceControl(struct device_object *fdo,
 					    struct irp *irp);
