@@ -33,7 +33,7 @@
 
 #include <linux/major.h>
 #include <linux/ioctl.h>
-
+#include <sys/sysmacros.h>
 #include "loader.h"
 
 #define PROG_NAME "loadndisdriver"
@@ -496,7 +496,8 @@ static int get_ioctl_device(void)
 	}
 
 	unlink(ioctl_file);
-	if (mknod(ioctl_file, S_IFCHR | 0600, MISC_MAJOR << 8 | minor_dev)) {
+	dev_t dev_num = makedev(MISC_MAJOR, minor_dev);
+	if (mknod(ioctl_file, S_IFCHR | 0600, dev_num)) {
 		ERROR("couldn't create file %s: %s",
 		      ioctl_file, strerror(errno));
 		return -1;
