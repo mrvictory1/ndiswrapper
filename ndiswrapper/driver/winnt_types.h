@@ -226,11 +226,13 @@ union nt_slist_head {
 };
 typedef union nt_slist_head nt_slist_header;
 #endif
-
+/*
 struct nt_list {
 	struct nt_list *next;
 	struct nt_list *prev;
 };
+*/
+#define nt_list list_head
 
 typedef ULONG_PTR NT_SPIN_LOCK;
 
